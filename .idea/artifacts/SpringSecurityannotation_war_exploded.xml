@@ -1,0 +1,31 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="SpringSecurityannotation:war exploded">
+    <output-path>$PROJECT_DIR$/target/SpringSecurity-annotation</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="SpringSecurityannotation" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: org.springframework:spring-core:5.0.1.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-jcl:5.0.1.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-web:5.0.1.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-beans:5.0.1.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:5.0.1.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-aop:5.0.1.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-context:5.0.1.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-expression:5.0.1.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-web:4.2.3.RELEASE" />
+          <element id="library" level="project" name="Maven: aopalliance:aopalliance:1.0" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-core:4.2.3.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-config:4.2.3.RELEASE" />
+          <element id="library" level="project" name="Maven: jstl:jstl:1.2" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/target/SpringSecurity-annotation/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="SpringSecurityannotation/web/Web" />
+    </root>
+  </artifact>
+</component>
