@@ -19,6 +19,7 @@ public class HelloController {
         model.addObject("title", "Spring Security Hello World");
         model.addObject("message", "This is welcome page!");
         model.setViewName("hello");
+        System.out.println(">>>>>>>>>>>>>hello");
         return model;
     }
 
