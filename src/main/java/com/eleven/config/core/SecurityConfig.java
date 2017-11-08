@@ -21,13 +21,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.inMemoryAuthentication().withUser("dba").password("123456").roles("DBA");
     }
 
+    //.csrf() is optional, enabled by default, if using WebSecurityConfigurerAdapter constructor
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/dba/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_DBA')")
-                .and().formLogin();
+                .and()
+                .formLogin().loginPage("/login").failureUrl("/login?error")
+                .usernameParameter("user").passwordParameter("pass")
+                .loginProcessingUrl("/j_spring_security_check")
+                .and()
+                .logout().logoutSuccessUrl("/login?logout")
+                .logoutUrl("/j_spring_security_logout")
+                .and()
+                .csrf();
     }
 
    /* <http auto-config="true">
