@@ -51,6 +51,13 @@
       <version>4.0.0</version>
       <scope>provided</scope>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs -->
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-taglibs</artifactId>
+      <version>4.2.3.RELEASE</version>
+    </dependency>
+
   </dependencies>
   <build>
     <finalName>SpringSecurity-annotation</finalName>

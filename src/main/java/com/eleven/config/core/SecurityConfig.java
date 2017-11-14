@@ -17,8 +17,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication().withUser("sysadmin").password("111111").roles("ADMIN");
-        auth.inMemoryAuthentication().withUser("jyy").password("jyy").roles("USER");
-        auth.inMemoryAuthentication().withUser("dba").password("123456").roles("DBA");
+        auth.inMemoryAuthentication().withUser("jyy").password("111111").roles("USER");
+        auth.inMemoryAuthentication().withUser("dba").password("111111").roles("DBA","ADMIN");
     }
 
     //.csrf() is optional, enabled by default, if using WebSecurityConfigurerAdapter constructor
@@ -26,17 +26,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/","/home").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/dba/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_DBA')")
                 .and()
-                .formLogin().loginPage("/login").failureUrl("/login?error")
-                .usernameParameter("user").passwordParameter("pass")
-                .loginProcessingUrl("/j_spring_security_check")
+                .formLogin().loginPage("/login")
+                .failureUrl("/login?error")
+                .usernameParameter("username")
+                .passwordParameter("password")
+                //.loginProcessingUrl("/j_spring_security_check")
                 .and()
                 .logout().logoutSuccessUrl("/login?logout")
-                .logoutUrl("/j_spring_security_logout")
+                //.logoutUrl("/j_spring_security_logout")
                 .and()
-                .csrf();
+                .csrf()
+                .and()
+                .exceptionHandling().accessDeniedPage("/error");
     }
 
    /* <http auto-config="true">
