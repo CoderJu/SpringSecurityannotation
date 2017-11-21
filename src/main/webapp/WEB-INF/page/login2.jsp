@@ -1,17 +1,18 @@
 <%--
   Created by IntelliJ IDEA.
   User: User
-  Date: 2017/11/16
-  Time: 22:43
+  Date: 2017/11/8
+  Time: 21:45
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Login page</title>
-    <link href="<c:url value='/static/css/bootstrap.css' />"  rel="stylesheet"></link>
-    <link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
+    <link href="<c:url value='/static/css/bootstrap.css' />"  rel="stylesheet"/>
+    <link href="<c:url value='/static/css/app.css' />" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.css" />
 </head>
 
@@ -40,7 +41,7 @@
                         <label class="input-group-addon" for="password"><i class="fa fa-lock"></i></label>
                         <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required>
                     </div>
-                    <input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" />
+                    <input type="hidden" name="${_csrf.parameterName}" 	value="${_csrf.token}" />
 
                     <div class="form-actions">
                         <input type="submit"

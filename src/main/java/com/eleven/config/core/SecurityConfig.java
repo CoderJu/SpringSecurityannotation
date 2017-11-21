@@ -1,11 +1,13 @@
 package com.eleven.config.core;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  * Created by User on 2017/11/2.
@@ -14,12 +16,24 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
+   /* @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication().withUser("sysadmin").password("111111").roles("ADMIN");
         auth.inMemoryAuthentication().withUser("jyy").password("111111").roles("USER");
         auth.inMemoryAuthentication().withUser("dba").password("111111").roles("DBA","ADMIN");
+    }*/
+
+   @Autowired
+   @Qualifier("customUserDetailsService")
+   UserDetailsService userDetailsService;
+
+
+
+    //通过Hibernate链接
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+        auth.userDetailsService(userDetailsService);
     }
+
 
     //.csrf() is optional, enabled by default, if using WebSecurityConfigurerAdapter constructor
 
