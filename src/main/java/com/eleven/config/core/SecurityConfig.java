@@ -1,5 +1,6 @@
 package com.eleven.config.core;
 
+import com.eleven.handler.CustomSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +29,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
    UserDetailsService userDetailsService;
 
 
+   @Autowired
+    CustomSuccessHandler customSuccessHandler;
 
     //通过Hibernate链接
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
@@ -40,19 +43,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/","/home").permitAll()
+                //.antMatchers("/","/home").permitAll()
+                .antMatchers("/home").hasRole("USER")
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/dba/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_DBA')")
+                .antMatchers("/dba/**").access("hasRole('ROLE_ADMIN') and hasRole('ROLE_DBA')")
                 .and()
                 .formLogin().loginPage("/login")
-                .failureUrl("/login?error")
+                .successHandler(customSuccessHandler)
+               // .failureUrl("/login?error")
                 .usernameParameter("username")
                 .passwordParameter("password")
-                //.loginProcessingUrl("/j_spring_security_check")
                 .and()
-                .logout().logoutSuccessUrl("/login?logout")
-                //.logoutUrl("/j_spring_security_logout")
-                .and()
+                //.logout().logoutSuccessUrl("/login?logout")
+                //.and()
                 .csrf()
                 .and()
                 .exceptionHandling().accessDeniedPage("/error");
