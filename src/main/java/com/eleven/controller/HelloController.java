@@ -1,22 +1,37 @@
 package com.eleven.controller;
 
+import com.eleven.model.User;
+import com.eleven.model.UserProfile;
+import com.eleven.service.UserProfileService;
+import com.eleven.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * Created by User on 2017/11/2.
  */
 @Controller
 public class HelloController {
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private UserProfileService userProfileService;
 
 
     @RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
@@ -59,6 +74,38 @@ public class HelloController {
         }
         return "redirect:/login?logout";
     }
+
+    //Spring Security see this :
+    @RequestMapping(value = "/registerPage", method = RequestMethod.GET)
+    public String registerPage(ModelMap model) {
+        User user = new User();
+        model.addAttribute("user", user);
+        return "register";
+    }
+
+    //Spring Security see this :
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public String register(@Validated User user, BindingResult result,ModelMap model) {
+        if (result.hasErrors()) {
+            System.out.println("There are errors");
+            return "register";
+        }
+        userService.save(user);
+        if (user.getUserProfiles() != null){
+            for (UserProfile profile: user.getUserProfiles() ) {
+                System.out.println("Profile : "+ profile.getType());
+            }
+        }
+        model.addAttribute("success", "User " + user.getFirstName() + " has been registered successfully");
+        return "registerSuccess";
+    }
+
+
+    @ModelAttribute("roles")
+    public List<UserProfile> initializeProfiles(){
+       return userProfileService.findAll();
+    }
+
 
     /**
      *  通过Authentication.getPrincipal()可以获取到代表当前用户的信息，

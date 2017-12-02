@@ -22,4 +22,8 @@ public class UserDaoImpl extends AbstractDao<Integer,User> implements UserDao{
         System.out.print(">>>>>>"+(User) cri.uniqueResult());
         return (User) cri.uniqueResult();
     }
+
+    public void save(User user) {
+        persist(user);
+    }
 }
