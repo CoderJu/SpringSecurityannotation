@@ -63,7 +63,7 @@ public class HelloController {
     //Spring Security see this :
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login() {
-        return "login2";
+        return "login";
     }
 
     @RequestMapping(value = "/logout",method = RequestMethod.GET)

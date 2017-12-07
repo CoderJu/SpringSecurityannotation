@@ -40,6 +40,12 @@
                         <label class="input-group-addon" for="password"><i class="fa fa-lock"></i></label>
                         <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required>
                     </div>
+                    <div class="input-group input-sm">
+                    <div class="checkbox">
+                        <label><input type="checkbox" id="rememberme" name="remember-me"> Remember Me</label>
+                    </div>
+                </div>
+
                     <input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" />
 
                     <div class="form-actions">

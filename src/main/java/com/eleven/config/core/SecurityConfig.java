@@ -14,6 +14,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
+import javax.sql.DataSource;
 
 /**
  * Created by User on 2017/11/2.
@@ -36,6 +40,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
    @Autowired
     CustomSuccessHandler customSuccessHandler;
+
+   @Autowired
+    DataSource dataSource;
 
     //通过Hibernate链接
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
@@ -73,12 +80,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                // .failureUrl("/login?error")
                 .usernameParameter("username")
                 .passwordParameter("password")
+                .and().rememberMe().rememberMeParameter("remember-me")
+                .tokenRepository(persistentTokenRepository()).tokenValiditySeconds(86400)
+                .userDetailsService(userDetailsService)
                 .and()
                 //.logout().logoutSuccessUrl("/login?logout")
                 //.and()
                 .csrf()
                 .and()
                 .exceptionHandling().accessDeniedPage("/error");
+    }
+
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
+        jdbcTokenRepository.setDataSource(dataSource);
+        return jdbcTokenRepository;
     }
 
    /* <http auto-config="true">
