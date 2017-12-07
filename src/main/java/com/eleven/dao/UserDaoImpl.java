@@ -5,6 +5,8 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Created by User on 2017/11/16.
  */
@@ -25,5 +27,19 @@ public class UserDaoImpl extends AbstractDao<Integer,User> implements UserDao{
 
     public void save(User user) {
         persist(user);
+    }
+
+    public List<User> findAll() {
+        Criteria cri = createEntityCriteria();
+        System.out.print(">>>>>>"+cri.list());
+        return  cri.list();
+    }
+
+    public void update(User user) {
+        updateEntity(user);
+    }
+
+    public void deleteUser(User user) {
+        delete(user);
     }
 }

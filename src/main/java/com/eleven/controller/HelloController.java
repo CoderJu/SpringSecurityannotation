@@ -14,6 +14,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -108,6 +109,44 @@ public class HelloController {
 
 
     /**
+     * ===================================分隔线=================================================
+     * 用于验证 Spring Security使用@PreAuthorize,@PostAuthorize, @Secured方法安全
+     */
+
+    @RequestMapping(value = "/list",method = RequestMethod.GET)
+    public String list(ModelMap model){
+        List<User> users = userService.findAll();
+        model.addAttribute("users",users);
+        return "list";
+    }
+
+    @RequestMapping(value = {"/edit-user-{id}"},method = RequestMethod.GET)
+    public String editPage(@PathVariable int id, ModelMap model){
+        User user =  userService.findById(id);
+        model.addAttribute("user",user);
+        model.addAttribute("edit",true);
+        return "edit";
+    }
+
+    @RequestMapping(value = {"/edit-user-{id}"},method = RequestMethod.POST)
+    public String edit( ModelMap model,User user,@PathVariable int id){
+        userService.edit(user);
+        model.addAttribute("success", "User " + user.getFirstName()  + " updated successfully");
+        return "success";
+    }
+
+
+    @RequestMapping(value = {"/delete-user-{id}"},method = RequestMethod.GET)
+    public String delete(@PathVariable int id, ModelMap model){
+            userService.delete(id);
+        model.addAttribute("success", "User  Delete successfully");
+        return "success";
+    }
+
+
+
+
+    /**
      *  通过Authentication.getPrincipal()可以获取到代表当前用户的信息，
      *  这个对象通常是UserDetails的实例。获取当前用户的用户名是一种比较常见的需求，
      *  关于上述代码其实Spring Security在Authentication中的实现类中已经为我们做了相关实现，
@@ -127,4 +166,7 @@ public class HelloController {
         }
         return userName;
     }
+
+
+
 }

@@ -7,6 +7,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Created by User on 2017/11/16.
  */
@@ -31,5 +33,22 @@ public class UserServiceImpl implements UserService {
     public void save(User user) {
         user.setPassWord(passwordEncoder.encode(user.getPassWord()));
         userDao.save(user);
+    }
+
+    public List<User> findAll() {
+        return userDao.findAll();
+    }
+
+    public void edit(User user) {
+        User exitUser = userDao.findById(user.getId());
+        exitUser.setFirstName(user.getFirstName());
+        exitUser.setLastName(user.getLastName());
+        exitUser.setUserName(user.getUserName());
+        userDao.update(exitUser);
+    }
+
+    public void delete(int id) {
+        User user = userDao.findById(id);
+        userDao.deleteUser(user);
     }
 }
